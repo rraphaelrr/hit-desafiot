@@ -1,52 +1,44 @@
 import axios from 'axios';
-import '../../style/style_login.scss';
+import '../../style/style_home.scss';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import Objetos from '../../constant/Objects';
 
 export function Home() {
-    const [showLogin, setshowLogin] = useState(true);
-    const [user, setUser] = useState();
-    const [password, setPassword] = useState('');
+    const [dados, setDados] = useState([]);
     const [show, setShow] = useState(false);
-    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
+        getData();
+    }, [])
 
-    })
-
-    const userValidate = (e) => {
-        if (e != "" || e != null) {
-            if (e.length > 5) {
-                setShow(true)
-            } else {
-                setShow(false)
+    const getData = () => {
+        let lista = [];
+        axios.get('data.json', {
+            headers: {},
+        }).then((res) => {
+            const key = Object.keys(res.data);
+            const Tamanho_key = Object.keys(res.data.tickets).length;
+            console.log(key)
+            console.log(Tamanho_key)
+            for (var i = 0; i < Tamanho_key; i++) {
+                console.log(i)
+                lista.push(res.data.tickets[i])
             }
-        }
-    }
+            console.log(lista)
+            setShow(true)
+        })
 
-    const passwordValidate = (e) => {
-        console.log(e)
 
-        if (e != "" || e != null) {
-            if (e.length >= 8) {
-                setshowLogin(false)
-                setShowModal(true)
 
-                  setTimeout(() => {
-                      window.location.href = '/home'
-                  }, 700);
-            } else {
-                setShowModal(false);
-                setshowLogin(true)
-            }
-        }
+        setDados(lista)
     }
 
 
+    
 
     return (
-        <section className='login'>
+        <section className='home'>
             <header>
                 <Container>
                     <Row className="row_header">
@@ -57,26 +49,18 @@ export function Home() {
                 </Container>
             </header>
 
-            {showLogin == true ? (
-                <main className="login">
-                    <Container className="campoLogin">
-                        <Row>
-                            <Col number={12}>
-                                <h1>Hello World</h1>
-                            </Col>
-                        </Row>
-                      
-
-                    </Container>
-                </main>
-            ) : <></>}
-
-          
-
-
-
-
-
-        </section >
+            <main >
+                <Container>
+                    <Row>
+                        {dados.map((dados) => {
+                            console.log(dados)
+                            if (dados.status === "closed") {
+                                return (<h1>{dados.status}</h1>)
+                            }
+                        })}
+                    </Row>
+                </Container>
+            </main>
+        </section>
     )
 }

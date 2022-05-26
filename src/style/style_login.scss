@@ -41,8 +41,12 @@
         height: 100vh;
         text-align: center;
         overflow-y: hidden;
+        background-repeat: no-repeat !important;
     }
-
+    .login header {
+        padding: 10px 0 5px;
+        background-color: $cor_2;
+    }
     .campoLogin {
         background-color: $cor_2;
         width: 50%;
