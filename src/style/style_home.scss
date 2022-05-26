@@ -1,16 +1,22 @@
 @import 'Colors.scss';
 
 @media all {
-    .home header{
+    .header{
         background-color: $cor_2 !important;
         padding: 10px;
+        background-size: cover !important;
+    }
+    .header select {
+        float: right;
+        margin: 40px 30px 10px;
+        border: 0;
+        box-shadow: 1px 1px 5px 1px $cor_3;
+        width: 30%;
+        height: 30px;
+        border-radius: 10px;
     }
     .home {
-        overflow-x: hidden !important;
-        background-size: cover;
-        height: 100vh;
-        overflow-y: hidden;
-        background-repeat: no-repeat !important;
+        height: 100%;
         background-color: $cor_1;
     }
 }
