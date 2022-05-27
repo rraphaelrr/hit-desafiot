@@ -11,9 +11,15 @@ export function Home() {
     const [ptBr, setPtbr] = useState(true);
     const [eng, setEng] = useState(false);
     const [language, setLanguage] = useState('Selecione o Idioma desejado!');
+    const { open, setOpen } = useState(false);
+    const { closed, setClosed } = useState(false);
+    const { pending, setPending } = useState(false);
 
     useEffect(() => {
         getData();
+        let currentTimestamp = Date.now()
+        console.log(currentTimestamp); // get current timestamp
+        let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
     }, [])
 
     const getData = () => {
@@ -45,6 +51,22 @@ export function Home() {
             setLanguage(value)
             setEng(true);
             setPtbr(false);
+        }
+    }
+
+    const selectSolicitacao = (id) => {
+        if (id == 1) {
+            setOpen(true)
+            setClosed(false)
+            setPending(false)
+        } else if (id == 2) {
+            setOpen(false)
+            setClosed(true)
+            setPending(false)
+        } else {
+            setOpen(false)
+            setClosed(false)
+            setPending(true)
         }
     }
 
@@ -80,25 +102,121 @@ export function Home() {
                 <section className="campSolicitacoes">
                     <Container>
                         <Row>
-                            <Col md={4}>
+                            <Col className="solicitacoes" md={4}>
+                                {open == false ? (
+                                    <div>
+                                        <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(1)}>Em Aberto</Button>
+                                    </div>
+                                ) : null}
+                                
                                 {dados.map((value) => {
                                     console.log(value)
                                     if (value.status === "open") {
+
+                                        console.log(value.createdAt)
+
+                                        let timestamps = value.createdAt;
+                                        console.log(timestamps);
+
+                                        let [data, time] = timestamps.split('T');
+
+                                        let [ano, mes, dia] = data.split('-');
+                                        let formatedDate = `${dia}/${mes}/${ano}`;
+
+
+                                        let [hour, minutes] = time.split(':', 2);
+                                        let formatTime = `${hour}:${minutes}`;
+                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+
+                                        console.log(formatedDateTime);
+
                                         return (
                                             <div key={value.id}>
                                                 {ptBr ? (
                                                     <h1>Aberto</h1>
                                                 ) : eng ? (
-                                                    <h1>{value.status}</h1>
+                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
                                                 ) : <></>}
-
-                                                <h1>{Date(value.createdAt)}</h1>
+                                                <h1>{formatedDate}</h1>
+                                                <h1>{formatTime}</h1>
                                             </div>
                                         )
                                     }
                                 })}
                             </Col>
-                            
+                            <Col className="solicitacoes" md={4}>
+                                {dados.map((value) => {
+                                    console.log(value)
+                                    if (value.status === "closed") {
+
+                                        console.log(value.createdAt)
+
+                                        let timestamps = value.createdAt;
+                                        console.log(timestamps);
+
+                                        let [data, time] = timestamps.split('T');
+
+                                        let [ano, mes, dia] = data.split('-');
+                                        let formatedDate = `${dia}/${mes}/${ano}`;
+
+
+                                        let [hour, minutes] = time.split(':', 2);
+                                        let formatTime = `${hour}:${minutes}`;
+                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+
+                                        console.log(formatedDateTime);
+
+                                        return (
+                                            <div key={value.id}>
+                                                {ptBr ? (
+                                                    <h1>Encerrado</h1>
+                                                ) : eng ? (
+                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
+                                                ) : <></>}
+                                                <h1>{formatedDate}</h1>
+                                                <h1>{formatTime}</h1>
+                                            </div>
+                                        )
+                                    }
+                                })}
+                            </Col>
+                            <Col className="solicitacoes" md={4}>
+                                {dados.map((value) => {
+                                    console.log(value)
+                                    if (value.status === "pending") {
+
+                                        console.log(value.createdAt)
+
+                                        let timestamps = value.createdAt;
+                                        console.log(timestamps);
+
+                                        let [data, time] = timestamps.split('T');
+
+                                        let [ano, mes, dia] = data.split('-');
+                                        let formatedDate = `${dia}/${mes}/${ano}`;
+
+
+                                        let [hour, minutes] = time.split(':', 2);
+                                        let formatTime = `${hour}:${minutes}`;
+                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+
+                                        console.log(formatedDateTime);
+
+                                        return (
+                                            <div key={value.id}>
+                                                {ptBr ? (
+                                                    <h1>Pendente</h1>
+                                                ) : eng ? (
+                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
+                                                ) : <></>}
+                                                <h1>{formatedDate}</h1>
+                                                <h1>{formatTime}</h1>
+                                            </div>
+                                        )
+                                    }
+                                })}
+                            </Col>
+
                         </Row>
                     </Container>
                 </section>

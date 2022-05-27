@@ -19,4 +19,12 @@
         height: 100%;
         background-color: $cor_1;
     }
+
+    .solicitacoes div{
+        background-color: $cor_2 !important;
+        margin: 10px 0 0 ;
+        width: 80%;
+        border-radius: 10px;
+        padding: 10px;
+    }
 }
