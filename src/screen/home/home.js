@@ -11,9 +11,9 @@ export function Home() {
     const [ptBr, setPtbr] = useState(true);
     const [eng, setEng] = useState(false);
     const [language, setLanguage] = useState('Selecione o Idioma desejado!');
-    const { open, setOpen } = useState(false);
-    const { closed, setClosed } = useState(false);
-    const { pending, setPending } = useState(false);
+    const [open, setOpen] = useState(false);
+    const [closed, setClosed] = useState(false);
+    const [pending, setPending] = useState(false);
 
     useEffect(() => {
         getData();
@@ -105,116 +105,173 @@ export function Home() {
                             <Col className="solicitacoes" md={4}>
                                 {open == false ? (
                                     <div>
-                                        <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(1)}>Em Aberto</Button>
+                                        {ptBr ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(1)}>Em Aberto</Button>
+                                        ) : eng ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(1)}>Open</Button>
+                                        ) : <></>}
+
                                     </div>
-                                ) : null}
-                                
-                                {dados.map((value) => {
-                                    console.log(value)
-                                    if (value.status === "open") {
+                                ) : open == true ? (
 
-                                        console.log(value.createdAt)
+                                    dados.map((value) => {
+                                        console.log(value)
+                                        if (value.status === "open") {
 
-                                        let timestamps = value.createdAt;
-                                        console.log(timestamps);
+                                            console.log(value.createdAt)
 
-                                        let [data, time] = timestamps.split('T');
+                                            let timestamps = value.createdAt;
+                                            console.log(timestamps);
 
-                                        let [ano, mes, dia] = data.split('-');
-                                        let formatedDate = `${dia}/${mes}/${ano}`;
+                                            let [data, time] = timestamps.split('T');
+
+                                            let [ano, mes, dia] = data.split('-');
+                                            let formatedDate = `${dia}/${mes}/${ano}`;
 
 
-                                        let [hour, minutes] = time.split(':', 2);
-                                        let formatTime = `${hour}:${minutes}`;
-                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+                                            let [hour, minutes] = time.split(':', 2);
+                                            let formatTime = `${hour}:${minutes}`;
+                                            let formatedDateTime = `${formatedDate} ${formatTime}`;
 
-                                        console.log(formatedDateTime);
+                                            console.log(formatedDateTime);
 
-                                        return (
-                                            <div key={value.id}>
-                                                {ptBr ? (
-                                                    <h1>Aberto</h1>
-                                                ) : eng ? (
-                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
-                                                ) : <></>}
-                                                <h1>{formatedDate}</h1>
-                                                <h1>{formatTime}</h1>
-                                            </div>
-                                        )
-                                    }
-                                })}
+                                            return (
+                                                <div key={value.id}>
+                                                    {ptBr ? (
+                                                        <h1>Aberto</h1>
+                                                    ) : eng ? (
+                                                        <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
+                                                    ) : <></>}
+                                                    {ptBr ? (
+                                                        <h1>Criado em:</h1>
+
+                                                    ) : eng ? (
+                                                        <h1>Created in:
+                                                        </h1>
+                                                    ) : <></>}
+
+                                                    <h2>{formatedDate}</h2>
+                                                    <h2>{formatTime}</h2>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                ) : <></>}
                             </Col>
+
                             <Col className="solicitacoes" md={4}>
-                                {dados.map((value) => {
-                                    console.log(value)
-                                    if (value.status === "closed") {
-
-                                        console.log(value.createdAt)
-
-                                        let timestamps = value.createdAt;
-                                        console.log(timestamps);
-
-                                        let [data, time] = timestamps.split('T');
-
-                                        let [ano, mes, dia] = data.split('-');
-                                        let formatedDate = `${dia}/${mes}/${ano}`;
+                                {closed == false ? (
+                                    <div>
+                                        {ptBr ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(2)}>Encerrados</Button>
+                                        ) : eng ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(2)}>Closed</Button>
+                                        ) : <></>}
 
 
-                                        let [hour, minutes] = time.split(':', 2);
-                                        let formatTime = `${hour}:${minutes}`;
-                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+                                    </div>
+                                ) : closed == true ? (
 
-                                        console.log(formatedDateTime);
+                                    dados.map((value) => {
+                                        console.log(value)
+                                        if (value.status === "closed") {
 
-                                        return (
-                                            <div key={value.id}>
-                                                {ptBr ? (
-                                                    <h1>Encerrado</h1>
-                                                ) : eng ? (
-                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
-                                                ) : <></>}
-                                                <h1>{formatedDate}</h1>
-                                                <h1>{formatTime}</h1>
-                                            </div>
-                                        )
-                                    }
-                                })}
+                                            console.log(value.createdAt)
+
+                                            let timestamps = value.createdAt;
+                                            console.log(timestamps);
+
+                                            let [data, time] = timestamps.split('T');
+
+                                            let [ano, mes, dia] = data.split('-');
+                                            let formatedDate = `${dia}/${mes}/${ano}`;
+
+
+                                            let [hour, minutes] = time.split(':', 2);
+                                            let formatTime = `${hour}:${minutes}`;
+                                            let formatedDateTime = `${formatedDate} ${formatTime}`;
+
+                                            console.log(formatedDateTime);
+
+                                            return (
+                                                <div key={value.id}>
+                                                    {ptBr ? (
+                                                        <h1>Encerrados</h1>
+                                                    ) : eng ? (
+                                                        <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
+                                                    ) : <></>}
+                                                    {ptBr ? (
+                                                        <h1>Criado em:</h1>
+
+                                                    ) : eng ? (
+                                                        <h1>Created in:
+                                                        </h1>
+                                                    ) : <></>}
+
+                                                    <h2>{formatedDate}</h2>
+                                                    <h2>{formatTime}</h2>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                ) : <></>}
                             </Col>
+
                             <Col className="solicitacoes" md={4}>
-                                {dados.map((value) => {
-                                    console.log(value)
-                                    if (value.status === "pending") {
+                                {pending == false ? (
+                                    <div>
+                                        {ptBr ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(3)}>Pendentes</Button>
+                                        ) : eng ? (
+                                            <Button className="tipoSolicitacao" onClick={() => selectSolicitacao(3)}>Pending</Button>
+                                        ) : <></>}
 
-                                        console.log(value.createdAt)
+                                    </div>
+                                ) : pending == true ? (
 
-                                        let timestamps = value.createdAt;
-                                        console.log(timestamps);
+                                    dados.map((value) => {
+                                        console.log(value)
+                                        if (value.status === "pending") {
 
-                                        let [data, time] = timestamps.split('T');
+                                            console.log(value.createdAt)
 
-                                        let [ano, mes, dia] = data.split('-');
-                                        let formatedDate = `${dia}/${mes}/${ano}`;
+                                            let timestamps = value.createdAt;
+                                            console.log(timestamps);
+
+                                            let [data, time] = timestamps.split('T');
+
+                                            let [ano, mes, dia] = data.split('-');
+                                            let formatedDate = `${dia}/${mes}/${ano}`;
 
 
-                                        let [hour, minutes] = time.split(':', 2);
-                                        let formatTime = `${hour}:${minutes}`;
-                                        let formatedDateTime = `${formatedDate} ${formatTime}`;
+                                            let [hour, minutes] = time.split(':', 2);
+                                            let formatTime = `${hour}:${minutes}`;
+                                            let formatedDateTime = `${formatedDate} ${formatTime}`;
 
-                                        console.log(formatedDateTime);
+                                            console.log(formatedDateTime);
 
-                                        return (
-                                            <div key={value.id}>
-                                                {ptBr ? (
-                                                    <h1>Pendente</h1>
-                                                ) : eng ? (
-                                                    <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
-                                                ) : <></>}
-                                                <h1>{formatedDate}</h1>
-                                                <h1>{formatTime}</h1>
-                                            </div>
-                                        )
-                                    }
-                                })}
+                                            return (
+                                                <div key={value.id}>
+                                                    {ptBr ? (
+                                                        <h1>Pendentes</h1>
+                                                    ) : eng ? (
+                                                        <h1 style={{ textTransform: "capitalize" }}>{value.status}</h1>
+                                                    ) : <></>}
+                                                    {ptBr ? (
+                                                        <h1>Criado em:</h1>
+
+                                                    ) : eng ? (
+                                                        <h1>Created in:
+                                                        </h1>
+                                                    ) : <></>}
+
+                                                    <h2>{formatedDate}</h2>
+                                                    <h2>{formatTime}</h2>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                ) : <></>}
                             </Col>
 
                         </Row>
